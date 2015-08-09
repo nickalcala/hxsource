@@ -1,0 +1,33 @@
+########################################
+# configuration file
+########################################
+protected/config/database.php
+
+###############################
+# Yii assets folders
+###############################
+/assets/
+/protected/tests/assets/
+
+###############################
+# NetBeans project files
+###############################
+nbproject/
+
+###############################
+# Sublime project files
+###############################
+*.sublime-project
+*.sublime-workspace
+
+###############################
+# Yii app runtime folder
+###############################
+protected/runtime/
+
+########################################
+# ignore thumbnails created by windows
+########################################
+Thumbs.db
+protected/data/token.json
+.idea
