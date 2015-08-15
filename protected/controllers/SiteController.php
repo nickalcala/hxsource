@@ -86,6 +86,8 @@ class SiteController extends Controller
 			Yii::app()->end();
 		}
 
+        $model->rememberMe = 1;
+
 		// collect user input data
 		if(isset($_POST['LoginForm']))
 		{
