@@ -28,11 +28,11 @@ class TreatmentController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
+				'actions'=>array('index','view','getTreatment'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update','getTreatment'),
+				'actions'=>array('create','update'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -185,17 +185,21 @@ class TreatmentController extends Controller
         if(!$diagnosis) {
             throw new CHttpException(401, 'Invalid diagnosis name');
         }
+
         $treatment = Treatment::model()->findByAttributes(array(
             'diagnosis_id' => $diagnosis->id,
         ));
+
 
         $data['action'] = $treatment->action;
         $diagnosisType = DiagnosisTypes::model()->findByAttributes(array('diagnosis_id' => $diagnosis->id));
         $doctors = Doctors::model()->findAllByAttributes(array('type' => $diagnosisType->doctor_type_id));
 
+        $diffArray = array();
         //how to compute for nearest place for the doctor
         foreach($doctors as $d) {
-            $data['doctors'][] = array(
+            $diffArray[] = abs($long-$d->long) + abs($lat-$d->lat);
+            $doctorData[] = array(
                 'id' => $d->id,
                 'name' => $d->getFullname(),
                 'address'=> $d->address,
@@ -204,8 +208,18 @@ class TreatmentController extends Controller
                 'schedule'=>$d->schedule,
                 'other_info'=>$d->other_info,
                 'lat' => $d->lat,
-                'long' => $d->long,
+                'long' => $d->long
             );
+        }
+        if(!empty($long) && !empty($lat)) {
+            asort($diffArray);
+            $sortedDoctor = array();
+            foreach($diffArray as $k => $d) {
+                $sortedDoctor[] = $doctorData[$k];
+            }
+            $data['doctors'] = $sortedDoctor;
+        } else {
+            $data['doctors'] = $doctorData;
         }
 
         echo CJSON::encode($data);
