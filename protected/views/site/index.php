@@ -9,8 +9,8 @@ $this->pageTitle=Yii::app()->name;
 			<?php echo CHtml::link('<img src='.Yii::app()->request->baseUrl.'/css/logo_final.png' .' style="width: 20%; height: 20%;" />'); ?>
 		</div>
 		<div>
-			<p>This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-	  		<p><a class="btn btn-primary btn-lg">Learn more</a></p>
+			<p align="center">Health on our Hands</p>
+	  		<p><a class="btn btn-primary btn-lg" href="http://www.hackathon.io/hxsource" target="_blank">Learn more</a></p>
 		</div>
 	</div>
 

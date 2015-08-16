@@ -175,13 +175,14 @@ class MedsController extends Controller
             throw new CHttpException(401, 'Missing query parameter');
         }
         $symptom = @$_GET['q'];
+        $criteria = new CDbCriteria();
+        $criteria->addInCondition('symptom_id', explode(',', $symptom));
         $data = array();
-        $meds = SymptomsMeds::model()->findAllByAttributes(array(
-            'symptom_id' => $symptom
-        ));
+        $meds = SymptomsMeds::model()->findAll($criteria);
         if(!$meds) {
             throw new CHttpException(401, 'No Medicines Found');
         }
+        
         foreach($meds as $m) {
             $data['medicines'][] = array(
                 'name' => $m->meds->name,
