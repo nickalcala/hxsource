@@ -172,7 +172,8 @@ class MedsController extends Controller
 
     public function actionGetMedicines() {
         if(!isset($_GET['q'])) {
-            throw new CHttpException(401, 'Missing query parameter');
+            echo CJSON::encode(array());
+            die;
         }
         $symptom = @$_GET['q'];
         $criteria = new CDbCriteria();
@@ -180,9 +181,10 @@ class MedsController extends Controller
         $data = array();
         $meds = SymptomsMeds::model()->findAll($criteria);
         if(!$meds) {
-            throw new CHttpException(401, 'No Medicines Found');
+            echo CJSON::encode(array());
+            die;
         }
-        
+
         foreach($meds as $m) {
             $data['medicines'][] = array(
                 'name' => $m->meds->name,

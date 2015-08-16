@@ -173,7 +173,8 @@ class TreatmentController extends Controller
 
     public function actionGetTreatment() {
         if(!isset($_GET['q'])) {
-            throw new CHttpException(401, 'Missing diagnosis name');
+            echo CJSON::encode(array());
+            die;
         }
 
         $lat = @$_GET['lat'];
@@ -183,7 +184,8 @@ class TreatmentController extends Controller
         $data = array();
         $diagnosis = Diagnosis::model()->findByAttributes(array('name' => $diagnosisName));
         if(!$diagnosis) {
-            throw new CHttpException(401, 'Invalid diagnosis name');
+            echo CJSON::encode(array());
+            die;
         }
 
         $treatment = Treatment::model()->findByAttributes(array(
